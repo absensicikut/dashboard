@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Absen Kelas</title>
+  <style>
+    :root {
+      --primary: #00acc1;
+      --primary-dark: #008b9b;
+      --success: #4caf50;
+      --text: #333;
+      --bg: #f9f9f9;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1, h4 {
+      text-align: center;
+      color: var(--primary-dark);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-bottom: 0px;
+    }
+
+    h4 {
+      margin-bottom: 10px;
+    }    
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+      margin-bottom: 15px;
+    }
+
+    .tab-btn {
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .tab-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .tab-btn.active {
+      background-color: var(--success);
+    }
+
+    .kelas-section {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .kelas-section.active {
+      display: flex;
+    }
+
+    .kelas-item {
+      background-color: var(--card-bg);
+      padding: 10px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .kelas-item:hover {
+      background-color: #e0f7fa;
+      transform: translateY(-3px);
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 15px;
+      background-color: var(--card-bg);
+      font-size: 14px;
+      color: #888;
+      border-top: 1px solid #ddd;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-width: 600px) {
+      .kelas-item {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1> Dashboard Absen Kelas</h1>
+  <h4>SMKN 1 Cikarang Utara - Student attendance with geo
+  <br><br><hr><br>
+  Konsentrasi Keahlian</h4>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('tei', this)">TEI</button>
+    <button class="tab-btn" onclick="showTab('tkr', this)">TKR</button>
+    <button class="tab-btn" onclick="showTab('tkj', this)">TKJ</button>
+    <button class="tab-btn" onclick="showTab('ak', this)">AK</button>
+    <button class="tab-btn" onclick="showTab('ulw', this)">ULW</button>
+  </div>
+  <hr><br>
+
+  <!-- TEI -->
+  <div class="kelas-section active" id="tei">
+    <div class="kelas-item" onclick="bukaHalaman('x-tei-1.html')">X TEI 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('x-tei-2.html')">X TEI 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-tei-1.html')">XI TEI 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-tei-2.html')">XI TEI 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-tei-1.html')">XII TEI 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-tei-2.html')">XII TEI 2</div>
+  </div>
+
+  <!-- TKR -->
+  <div class="kelas-section" id="tkr">
+    <div class="kelas-item" onclick="bukaHalaman('x-tkr-1.html')">X TKR 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('x-tkr-2.html')">X TKR 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-tkr-1.html')">XI TKR 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-tkr-2.html')">XI TKR 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-tkr-1.html')">XII TKR 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-tkr-2.html')">XII TKR 2</div>
+  </div>
+
+  <!-- TKJ -->
+  <div class="kelas-section" id="tkj">
+    <div class="kelas-item" onclick="bukaHalaman('x-tkj-1.html')">X TKJ 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('x-tkj-2.html')">X TKJ 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-tkj-1.html')">XI TKJ 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-tkj-2.html')">XI TKJ 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-tkj-1.html')">XII TKJ 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-tkj-2.html')">XII TKJ 2</div>
+  </div>
+
+  <!-- AK -->
+  <div class="kelas-section" id="ak">
+    <div class="kelas-item" onclick="bukaHalaman('x-ak-1.html')">X AK 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('x-ak-2.html')">X AK 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-ak-1.html')">XI AK 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-ak-2.html')">XI AK 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-ak-1.html')">XII AK 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-ak-2.html')">XII AK 2</div>
+  </div>
+
+  <!-- ULW -->
+  <div class="kelas-section" id="ulw">
+    <div class="kelas-item" onclick="bukaHalaman('x-ulw-1.html')">X ULW 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xi-ulw-1.html')">XI ULW 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('xii-ulw-1.html')">XII ULW 1</div>
+  </div>
+
+    <footer>
+      © 2025 SMKN 1 Cikarang Utara<br>
+      Created by: <a 			href="mailto:mhdfoeadcikut85@gmail.com">mhdfoeadcikut85@gmail.com</a>
+    </footer>
+
+  <script>
+    function showTab(tabId, btn) {
+      // Ganti tab
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.kelas-section').forEach(sec => sec.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function bukaHalaman(file) {
+      window.location.href = file;
+    }
+  </script>
+
+</body>
+</html>
