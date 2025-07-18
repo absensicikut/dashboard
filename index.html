@@ -37,19 +37,19 @@
     }
 
     h1 {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
 
     h4 {
-      margin-bottom: 10px;
-    }    
+      margin: 5px 0;
+    }
 
     .tabs {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 7px;
-      margin-bottom: 15px;
+      margin: 5px 0 10px 0;
     }
 
     .tab-btn {
@@ -84,17 +84,22 @@
     }
 
     .kelas-item {
-      background-color: var(--card-bg);
       padding: 10px 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       cursor: pointer;
       transition: all 0.2s ease;
+      flex: 1 1 calc(50% - 20px);
+      max-width: calc(50% - 20px);
+      text-align: center;
+      color: #fff;
+      background-color: var(--success);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      font-weight: 500;
     }
 
     .kelas-item:hover {
-      background-color: #e0f7fa;
-      transform: translateY(-3px);
+      background-color: var(--primary-dark);
+      transform: scale(1.03);
     }
 
     footer {
@@ -107,6 +112,13 @@
       border-top: 1px solid #ddd;
     }
 
+    hr {
+      margin: 10px auto;
+      width: 90%;
+      border: 0;
+      border-top: 1px solid #ccc;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.98); }
       to { opacity: 1; transform: scale(1); }
@@ -115,17 +127,18 @@
     @media (max-width: 600px) {
       .kelas-item {
         flex: 1 1 100%;
-        text-align: center;
+        max-width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <h1> Dashboard Kelas</h1>
-  <h4>SMKN 1 Cikarang Utara - Student attendance with geo
-  <br><br><hr><br>
-  Konsentrasi Keahlian</h4>
+  <h1>Dashboard Kelas</h1>
+  <h4>SMKN 1 Cikarang Utara - Student attendance with geo</h4>
+
+  <hr>
+  <h4>Konsentrasi Keahlian</h4>
   <div class="tabs">
     <button class="tab-btn active" onclick="showTab('tei', this)">TEI</button>
     <button class="tab-btn" onclick="showTab('tkr', this)">TKR</button>
@@ -133,20 +146,20 @@
     <button class="tab-btn" onclick="showTab('ak', this)">AK</button>
     <button class="tab-btn" onclick="showTab('ulw', this)">ULW</button>
   </div>
-  <hr><br>
+  <hr>
 
-  <!-- TEI -->
+  <!-- Kelas TEI -->
   <div class="kelas-section active" id="tei">
     <div class="kelas-item" onclick="bukaHalaman('x-tei-1.html')">X TEI 1</div>
     <div class="kelas-item" onclick="bukaHalaman('x-tei-2.html')">X TEI 2</div>
-    <div class="kelas-item" onclick="bukaHalaman('x-tei-3.html')">X TEI 3</div>    
+    <div class="kelas-item" onclick="bukaHalaman('x-tei-3.html')">X TEI 3</div>
     <div class="kelas-item" onclick="bukaHalaman('xi-tei-1.html')">XI TEI 1</div>
     <div class="kelas-item" onclick="bukaHalaman('xi-tei-2.html')">XI TEI 2</div>
-    <div class="kelas-item" onclick="bukaHalaman('xi-tei-3.html')">XI TEI 3</div>    
+    <div class="kelas-item" onclick="bukaHalaman('xi-tei-3.html')">XI TEI 3</div>
     <div class="kelas-item" onclick="bukaHalaman('xii-tei.html')">XII TEI</div>
   </div>
 
-  <!-- TKR -->
+  <!-- Kelas TKR -->
   <div class="kelas-section" id="tkr">
     <div class="kelas-item" onclick="bukaHalaman('x-tkr-1.html')">X TKR 1</div>
     <div class="kelas-item" onclick="bukaHalaman('x-tkr-2.html')">X TKR 2</div>
@@ -158,17 +171,17 @@
     <div class="kelas-item" onclick="bukaHalaman('xii-tkr.html')">XII TKR</div>
   </div>
 
-  <!-- TKJ -->
+  <!-- Kelas TKJ -->
   <div class="kelas-section" id="tkj">
     <div class="kelas-item" onclick="bukaHalaman('x-tkj-1.html')">X TKJ 1</div>
     <div class="kelas-item" onclick="bukaHalaman('x-tkj-2.html')">X TKJ 2</div>
     <div class="kelas-item" onclick="bukaHalaman('x-tkj-3.html')">X TKJ 3</div>
     <div class="kelas-item" onclick="bukaHalaman('xi-tkj-1.html')">XI TKJ 1</div>
     <div class="kelas-item" onclick="bukaHalaman('xi-tkj-2.html')">XI TKJ 2</div>
-    <div class="kelas-item" onclick="bukaHalaman('https://absensicikut.github.io/dashboard/12tkj2.html')">XII TKJ</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://absensicikut.github.io/Dash/12tkj2.html')">XII TKJ</div>
   </div>
 
-  <!-- AK -->
+  <!-- Kelas AK -->
   <div class="kelas-section" id="ak">
     <div class="kelas-item" onclick="bukaHalaman('x-ak-1.html')">X AK 1</div>
     <div class="kelas-item" onclick="bukaHalaman('x-ak-2.html')">X AK 2</div>
@@ -179,7 +192,7 @@
     <div class="kelas-item" onclick="bukaHalaman('xii-ak.html')">XII AK</div>
   </div>
 
-  <!-- ULW -->
+  <!-- Kelas ULW -->
   <div class="kelas-section" id="ulw">
     <div class="kelas-item" onclick="bukaHalaman('x-ulw-1.html')">X ULW 1</div>
     <div class="kelas-item" onclick="bukaHalaman('x-ulw-2.html')">X ULW 2</div>
@@ -187,17 +200,15 @@
     <div class="kelas-item" onclick="bukaHalaman('xii-ulw.html')">XII ULW</div>
   </div>
 
-    <footer>
-      © 2025 SMKN 1 Cikarang Utara<br>
-      Created by: <a href="mailto:mhdfoeadcikut85@gmail.com">mhdfoeadcikut85@gmail.com</a>
-    </footer>
+  <footer>
+    © 2025 SMKN 1 Cikarang Utara<br>
+    Created by: <a href="mailto:mhdfoeadcikut85@gmail.com">mhdfoeadcikut85@gmail.com</a>
+  </footer>
 
   <script>
     function showTab(tabId, btn) {
-      // Ganti tab
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.kelas-section').forEach(sec => sec.classList.remove('active'));
-
       document.getElementById(tabId).classList.add('active');
       btn.classList.add('active');
     }
