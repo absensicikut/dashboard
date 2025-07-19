@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Attendance | ICT SMKN 1 Cikut</title>
+  <style>
+    :root {
+      --primary: #00acc1;
+      --primary-dark: #008b9b;
+      --success: #4caf50;
+      --text: #333;
+      --bg: #f9f9f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Login Container */
+    #login-container {
+      max-width: 400px;
+      margin: auto;
+      margin-top: 25px;
+      padding: 30px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    #login-container h2, h4 {
+      text-align: center;
+      color: var(--primary-dark);
+    }
+    #login-container h4 {
+      margin-bottom: 10px;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 15px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button.login-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--primary);
+      border: none;
+      color: white;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.login-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .error-msg {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    #dashboard {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      z-index: 999999;
+    }
+        footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 15px;
+      /*background-color: var(--card-bg);*/
+      font-size: 14px;
+      color: #888;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="login-container">
+    <h2>Login Petugas</h2>
+    <h4>Student attendance with geo</h4>
+    <input type="password" id="passwordInput" placeholder="Masukkan Password">
+    <button class="login-btn" onclick="checkPassword()">Masuk</button>
+    <div id="errorMsg" class="error-msg"></div>
+  </div>
+
+  <!-- Iframe Dashboard -->
+  <iframe 
+    id="dashboard"
+    allow="geolocation"
+    src="https://absensicikut.github.io/dashboard/L1NgP3tu945">
+    Browser Anda tidak mendukung iframe
+  </iframe>
+
+  <footer>
+    © 2025 SMKN 1 Cikarang Utara<br>
+    Created by: <a href="mailto:mhdfoeadcikut85@gmail.com">mhdfoeadcikut85@gmail.com</a>
+  </footer>
+  
+  <script>
+    const allowedPasswords = ["piket123", "staff456", "walas789"]; // Ganti sesuai kebutuhan
+
+    function checkPassword() {
+      const input = document.getElementById("passwordInput").value.trim();
+      const error = document.getElementById("errorMsg");
+
+      if (allowedPasswords.includes(input)) {
+        document.getElementById("login-container").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+      } else {
+      error.textContent = "Password salah. Silakan coba lagi.";
+      setTimeout(() => {
+        error.textContent = ""; // Hapus pesan setelah 2 detik
+      }, 1500);
+    }
+  }
+  </script>
+
+</body>
+</html>
