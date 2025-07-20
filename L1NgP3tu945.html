@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Absen Kelas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #00acc1;
+      --primary-dark: #008b9b;
+      --success: #4caf50;
+      --text: #333;
+      --bg: #f9f9f9;
+      /*--card-bg: #ffffff;*/
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1, h4, h5 {
+      text-align: center;
+      color: var(--primary-dark);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-bottom: 0;
+    }
+
+    h5 {
+      margin: 5px 0;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+      margin: 5px 0 10px 0;
+    }
+
+    .tab-btn {
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .tab-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .tab-btn.active {
+      background-color: var(--success);
+    }
+
+    .kelas-section {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .kelas-section.active {
+      display: flex;
+    }
+
+    .kelas-item {
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex: 1 1 calc(25% - 20px);
+      max-width: calc(25% - 20px);
+      text-align: center;
+      color: #fff;
+      background-color: var(--primary);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      font-weight: 500;
+    }
+
+    .kelas-item:hover {
+      background-color: var(--primary-dark);
+      transform: scale(1.03);
+    }
+    
+    .kelas-item:active {
+      background-color: var(--success);
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 15px;
+      /*background-color: var(--card-bg);*/
+      font-size: 14px;
+      color: #888;
+      border-top: 1px solid #ddd;
+    }
+
+    hr {
+      margin: 10px auto;
+      width: 90%;
+      border: 0;
+      border-top: 1px solid #ccc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-width: 900px) {
+      .kelas-item {
+        flex: 1 1 45%;
+        max-width: 45%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .kelas-item {
+        flex: 1 1 48%;
+        max-width: 48%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1><i class="fas fa-user-graduate"></i></h1>
+  <h1>Dashboard Kelas</h1>
+  <h5>SMKN 1 Cikarang Utara - Student attendance with geo</h5>
+
+  <hr>
+  <h4>Konsentrasi Keahlian</h4>
+  <h5></h5>
+  <div class="tabs">
+    <button class="tab-btn" onclick="showTab('tei', this)"><b>TEI</b></button>
+    <button class="tab-btn" onclick="showTab('tkr', this)"><b>TKR</b></button>
+    <button class="tab-btn active" onclick="showTab('tkj', this)"><b>TKJ</b></button>
+    <button class="tab-btn" onclick="showTab('ak', this)"><b>AK</b></button>
+    <button class="tab-btn" onclick="showTab('ulw', this)"><b>ULW</b></button>
+  </div>
+  <hr>
+  <h4>== Pilih Kelas ==</h4>
+  <h5></h5>
+  <!-- Contoh Tab: TEI -->
+  <div class="kelas-section" id="tei">
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyvDNcqKQKMyfS-zGmDML3jd1GdAGRJSdrlDhzYTjLkZLmpynhwWb2PEtmxtzvQ1ELwdA/exec?petugas=true')">X TEI 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbzeXB692FEeJm3At5gg0B4kbfVMbClCrPtVJNlnXDDcuNjBdPo3jgaBI5RTWa2QWtjv/exec?petugas=true')">X TEI 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyun1BffZLSzOYL4CmXc3NW-gp0BGk4OuiDWn7lP5yxozg8D8bpiSIdd8IhPmE8hqBBbw/exec?petugas=true')">X TEI 3</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyUPE5qlPC_ZgKhD87mALC3G_NBQ88EVeiC-J_DgznhxCAXd4pe_j11ZqpuiYEES-7G1w/exec?petugas=true')">XI TEI 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyyIEd7B2FeenvLnTA01GC2PJGkjMDiMpP0Cmuvtuj3-hc5URfFNqatdlbhki7p7HHYLQ/exec?petugas=true')">XI TEI 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbz7zYScZT-XguAYSMYGr8_gmpJwBIx2FGDawAyGTCC0KA3Uir9NK46ga3w4L8Xgs_cy/exec?petugas=true')">XI TEI 3</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbxWcN_RMbudidLuZ1WR2341NtB8FFSkkGoeZ8cLnnq6X7BiOuG-rtetWz-tQZXrTEfYZw/exec?petugas=true')">XII TEI</div>
+  </div>
+
+  <!-- TKR -->
+  <div class="kelas-section" id="tkr">
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbz_dEQkEn-ESqBNVLwNEOytFKI6GN1RsFe6KK3IxoN-CaN0UlL4cZcjKy2jGVg-v8PC/exec?petugas=true')">X TKR 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbxZabC6WBcu_ofOKA8tDxtf92DsT3sW8A-ei9hPQ6fffFhPs47gzQ-bD6z2GNSNrchaUQ/exec?petugas=true')">X TKR 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbzIbC4DzbuwYMamV-uMyfOceJMHKBUXzEaq88GItZ5IKcgtIJZvw5pmYSFzylS15ALD/exec?petugas=true')">X TKR 3</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbwiqvcQaUC_6SOI7HIvHd-ISCsDgDd95sA-81QW1Uuhaz-HcW-O40KFFS9Qml4bGHEm6g/exec?petugas=true')">X TKR 4</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbwTOHMfnfTrSlVAoYJCvpMAONoXRc--4IftxCnD8XYPAJvrD7Yr491IE6_QKiqDL6F_HA/exec?petugas=true')">XI TKR 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbwATrO004ufDgo5kx9MFaV4QbjQzqGh0iKzzAxa_YNQ33BOdqMid6YcdTMJzyi_cSUM/exec?petugas=true')">XI TKR 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbwt6fNR2Z9hEVzQHbXjranh-h97gPzXyhSdZeAILmz82lWw36hggUJR9BjQNkaNg9VJ/exec?petugas=true')">XI TKR 3</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbxWcN_RMbudidLuZ1WR2341NtB8FFSkkGoeZ8cLnnq6X7BiOuG-rtetWz-tQZXrTEfYZw/exec?petugas=true')">XII TKR</div>
+  </div>
+
+  <!-- TKJ -->
+  <div class="kelas-section active" id="tkj">
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbxZErR5SWbmsEHHcxa8aL2r2dT9A5fMe5FMThMBhPMKePujYpUIq-sI_XlQjScDo5MkOQ/exec?petugas=true')">X TKJ 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbw-sO5YnmE9IcAIh6eKxUdzEB9UNo5mjvAuC7xHFffN-1LKdSTSdS35JkSUm5ZPcASw/exec?petugas=true')">X TKJ 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbzIlE_Hw2_AAc97XZJmSc79A9jT-yvd1urTfTkO4bN8RBKS00tNnCXZuchXrsAzIFKT/exec?petugas=true')">X TKJ 3</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyF1jSE2bqdZEYKtKYmBJouF7sH_LuGbQhU0MY3ACuRKTcvJPSK4rDz_8tUPF-Ec6tt/exec?petugas=true')">XI TKJ 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbwKekU0FhOxqKcOmM7NJ0GSZu2MQh6iK6LMa-w42GgZcrha-TmJzYWE6e3QiuMcW64R/exec?petugas=true')">XI TKJ 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbwbuFHlOObKt5vL3f4rL0eF3pyS7ptjUOsfklsPW1Dm-JLeXuyugxbMOuNRIAI6a0mHgg/exec?petugas=true')">XII TKJ</div>
+  </div>
+
+  <!-- AK -->
+  <div class="kelas-section" id="ak">
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbxZ7-TQqM9KcoFAdMzNMIhb_Ybbb-Y8j457l2uLT1bljMNp6ZQBjCHEsj9ugRZhCcfbVQ/exec?petugas=true')">X AK 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbzUfiF_QPWPKHmQLgr6Gxt8Qac8xFyvBIJ7ClFRlPHP6mp9hKYMdl7tStPv7ivJt8suDg/exec?petugas=true')">X AK 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbw3OUGfJ08dllocq2FKazBpl3nKRUTYd5XdEvbdci-7YhAYipRCOtSslxHsdWeCIpnrAw/exec?petugas=true')">X AK 3</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyWBc5e-PBRGlOl4EFXozuPnrlIh9gUcjaG7sRSmFO9VSjQnB2sor2W0hb9SmBHwiuRYw/exec?petugas=true')">XI AK 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbxWADloARaTHefEy_0Mze67mFJ8uRbvYnChBrYUTtBZ-9MebJstqT3_45a4GPzvbz-z/exec?petugas=true')">XI AK 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyHKJy0Fl4A2uBBaY06fjFGCq-IJ5TSo3hOB-vIwkZrvoMH8pgstPr8CohZA97bBD3_dQ/exec?petugas=true')">XI AK 3</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyfnhB0RjJzUKAl0FU6DOSvh7l-1rxoh2mtBtRFZBPPldZ2MsaKyQMcx5DOdTBp-35_kw/exec?petugas=true')">XII AK</div>
+  </div>
+
+  <!-- ULW -->
+  <div class="kelas-section" id="ulw">
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbwla4sZuvEvyZoPpX5Vlvypq7Pf4EEnp5m2ntZSOh-Z8j2JszahYiTlH_I4Kl3pG1JX/exec?petugas=true')">X ULW 1</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbxxiBWUNWUDkjSkpANojqIexcge4C1HEm6WbZqkU4iDpi-ekLl7bJqD7vn9_FG80laRqw/exec?petugas=true')">X ULW 2</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbx2ahJNU9xGVzpkDfFeg9qVoXY77Ft7La8_v2vIh_shru8l48yLeaBQPVv0skpap_QW/exec?petugas=true')">XI ULW</div>
+    <div class="kelas-item" onclick="bukaHalaman('https://script.google.com/macros/s/AKfycbyfnhB0RjJzUKAl0FU6DOSvh7l-1rxoh2mtBtRFZBPPldZ2MsaKyQMcx5DOdTBp-35_kw/exec?petugas=true')">XII ULW</div>
+  </div>
+
+  <footer>
+    © 2025 SMKN 1 Cikarang Utara<br>
+    Created by: <a href="mailto:mhdfoeadcikut85@gmail.com">mhdfoeadcikut85@gmail.com</a>
+  </footer>
+
+  <script>
+    function showTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.kelas-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function bukaHalaman(file) {
+      window.location.href = file;
+    }
+  </script>
+
+</body>
+</html>
