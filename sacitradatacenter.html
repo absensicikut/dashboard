@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sacitra Data Center - SMK Negeri 1 Cikarang Utara</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
         body {
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Arial Narrow', Arial, sans-serif;
         }
         
         .menu-card {
@@ -57,8 +56,35 @@
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body class="min-h-screen flex flex-col" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);">
-  <div id="app" class="w-full flex-1 flex flex-col"><!-- Header -->
-   <header class="bg-white shadow-lg">
+  <div id="app" class="w-full flex-1 flex flex-col"><!-- Access Code Screen -->
+   <div id="access-code-screen" class="flex-1 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+     <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center mb-4"><img src="https://www.smkn1cikarangutara.sch.id/upload/imagecache/28025611logosekolah-600x600.png" alt="Logo SMK Negeri 1 Cikarang Utara" width="80" height="80" class="rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+       <svg width="80" height="80" viewbox="0 0 80 80" style="display: none;"><defs>
+         <lineargradient id="accessLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#00d4e8;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#00a7b9;stop-opacity:1" />
+         </lineargradient>
+        </defs> <rect width="80" height="80" rx="16" fill="url(#accessLogoGradient)" /> <path d="M40 20L24 33V60H35V47H45V60H56V33L40 20Z" fill="white" /> <circle cx="40" cy="37" r="3" fill="#00a7b9" />
+       </svg>
+      </div>
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Sacitra Data Center</h2>
+      <p class="text-gray-600">Masukkan kode akses untuk melanjutkan</p>
+     </div>
+     <form id="access-code-form" class="space-y-4">
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Kode Akses *</label>
+       <div class="relative"><input type="password" id="input-access-code" required placeholder="Masukkan kode akses" class="w-full px-4 py-3 pr-12 border-2 border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-center text-lg tracking-widest" style="--tw-ring-color: #00a7b9;"> <button type="button" id="btn-toggle-access-code" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors text-xl"> 👁 </button>
+       </div>
+      </div>
+      <div id="access-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm text-center"></div><button type="submit" class="w-full text-white px-6 py-3 rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-xl" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> 🔓 Buka Dashboard </button>
+     </form>
+     <div class="mt-6 text-center">
+      <p class="text-xs text-gray-500">© 2026 SMK Negeri 1 Cikarang Utara</p>
+     </div>
+    </div>
+   </div><!-- Header -->
+   <header id="main-header" class="bg-white shadow-lg hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div class="flex items-center gap-3 sm:gap-4"><img src="https://www.smkn1cikarangutara.sch.id/upload/imagecache/28025611logosekolah-600x600.png" alt="Logo SMK Negeri 1 Cikarang Utara" width="60" height="60" class="flex-shrink-0 rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -74,14 +100,16 @@
         <p class="text-sm text-gray-600 mt-1">SMK Negeri 1 Cikarang Utara</p>
        </div>
       </div>
-      <div class="flex flex-wrap items-center gap-2"><button id="btn-refresh" class="text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> 🔄 <span class="hidden sm:inline">Refresh</span> </button> <select id="column-dropdown" class="bg-white border border-gray-300 text-gray-700 px-3 py-2 text-sm rounded-lg font-medium focus:ring-2 focus:border-transparent" style="--tw-ring-color: #00a7b9;"> <option value="3">3</option> <option value="5">5</option> <option value="7">7</option> </select> <button id="btn-manage-menu" class="hidden text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> ⚙️ <span class="hidden sm:inline">Kelola Menu</span> </button> <button id="btn-admin-login" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors"> 👑 <span class="hidden sm:inline">Admin</span> </button>
-       <div id="user-info" class="hidden flex items-center gap-2"><span id="role-badge" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors"> 👑 <span class="hidden sm:inline">Admin</span> </span> <button id="btn-logout" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors"> 🚪 <span class="hidden sm:inline">Logout</span> </button>
+      <div class="flex flex-wrap items-center gap-2"><select id="column-dropdown" class="bg-white border border-gray-300 text-gray-700 px-3 py-2 text-sm rounded-lg font-medium focus:ring-2 focus:border-transparent" style="--tw-ring-color: #00a7b9;"> <option value="3">3</option> <option value="5">5</option> <option value="7">7</option> </select>
+       <div class="relative"><button id="btn-admin-menu" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors flex items-center gap-1"> 👑 <span class="hidden sm:inline">Admin</span> <span class="text-xs">▼</span> </button>
+        <div id="admin-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50"><button id="btn-admin-login" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 font-medium transition-colors rounded-t-lg flex items-center gap-2"> 🔐 Login Admin </button> <button id="btn-manage-menu" class="hidden w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 font-medium transition-colors flex items-center gap-2"> ⚙️ Kelola Menu </button> <button id="btn-change-access-code" class="hidden w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 font-medium transition-colors flex items-center gap-2"> 🔑 Ubah Kode Akses </button> <button id="btn-logout" class="hidden w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 font-medium transition-colors rounded-b-lg flex items-center gap-2 border-t border-gray-200"> 🚪 Logout </button>
+        </div>
        </div>
       </div>
      </div>
     </div>
    </header><!-- Main Content -->
-   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"><!-- Menu Grid -->
+   <main id="main-content" class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full hidden"><!-- Menu Grid -->
     <div id="menu-section" class="grid gap-4 mb-8"><!-- Menu Cards will be generated here -->
     </div><!-- Sub Menu Section -->
     <div id="submenu-section" class="hidden">
@@ -101,7 +129,7 @@
      </div>
     </div>
    </main><!-- Footer -->
-   <footer class="bg-white shadow-lg mt-auto">
+   <footer id="main-footer" class="bg-white shadow-lg mt-auto hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
      <p class="text-center text-gray-600 text-sm">© 2026 Sacitra Data Center - SMK Negeri 1 Cikarang Utara</p>
     </div>
@@ -169,11 +197,34 @@
       <div><label class="block text-sm font-medium text-gray-700 mb-2">Username *</label> <input type="text" id="input-username" required placeholder="Masukkan username" class="w-full px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;">
       </div>
       <div><label class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
-       <div class="relative"><input type="password" id="input-password" required placeholder="Masukkan password" class="w-full px-4 py-2 pr-12 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;"> <button type="button" id="btn-toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"> <span id="eye-icon">👁️</span> </button>
+       <div class="relative"><input type="password" id="input-password" required placeholder="Masukkan password" class="w-full px-4 py-2 pr-12 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;"> <button type="button" id="btn-toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors text-xl"> 👁 </button>
        </div>
       </div>
       <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm"></div>
       <div class="flex flex-col sm:flex-row gap-2 pt-2"><button type="submit" class="flex-1 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg text-sm sm:text-base" style="background: linear-gradient(135deg, #008c9e 0%, #006b7d 100%);"> Login Admin </button> <button type="button" id="btn-cancel-login" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-lg font-medium transition-colors text-sm sm:text-base"> Batal </button>
+      </div>
+     </form>
+    </div>
+   </div><!-- Change Access Code Modal -->
+   <div id="change-access-code-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl p-6 sm:p-8 max-w-md w-full">
+     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 text-center">🔑 Ubah Kode Akses</h3>
+     <p class="text-sm text-gray-600 mb-6 text-center">Ubah kode akses untuk masuk ke dashboard</p>
+     <form id="change-access-code-form" class="space-y-4">
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Kode Akses Saat Ini *</label>
+       <div class="relative"><input type="password" id="input-current-access-code" required placeholder="Masukkan kode akses saat ini" class="w-full px-4 py-2 pr-12 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;"> <button type="button" class="btn-toggle-access-field absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors text-xl" data-target="input-current-access-code"> 👁 </button>
+       </div>
+      </div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Kode Akses Baru *</label>
+       <div class="relative"><input type="password" id="input-new-access-code" required placeholder="Masukkan kode akses baru" class="w-full px-4 py-2 pr-12 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;"> <button type="button" class="btn-toggle-access-field absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors text-xl" data-target="input-new-access-code"> 👁 </button>
+       </div>
+      </div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Kode Baru *</label>
+       <div class="relative"><input type="password" id="input-confirm-access-code" required placeholder="Masukkan ulang kode baru" class="w-full px-4 py-2 pr-12 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;"> <button type="button" class="btn-toggle-access-field absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors text-xl" data-target="input-confirm-access-code"> 👁 </button>
+       </div>
+      </div>
+      <div id="change-access-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm"></div>
+      <div class="flex flex-col sm:flex-row gap-2 pt-2"><button type="submit" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg text-sm sm:text-base"> Ubah Kode Akses </button> <button type="button" id="btn-cancel-change-access" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-lg font-medium transition-colors text-sm sm:text-base"> Batal </button>
       </div>
      </form>
     </div>
@@ -185,7 +236,32 @@
             password: 'admin20247250'
         };
 
+        let ACCESS_CODE = localStorage.getItem('sacitra_access_code') || 'sacitra';
+
         let currentUser = null;
+
+        function checkAccessCode() {
+            const hasAccess = sessionStorage.getItem('sacitra_access_granted');
+            if (hasAccess === 'true') {
+                showDashboard();
+            } else {
+                showAccessScreen();
+            }
+        }
+
+        function showAccessScreen() {
+            document.getElementById('access-code-screen').classList.remove('hidden');
+            document.getElementById('main-header').classList.add('hidden');
+            document.getElementById('main-content').classList.add('hidden');
+            document.getElementById('main-footer').classList.add('hidden');
+        }
+
+        function showDashboard() {
+            document.getElementById('access-code-screen').classList.add('hidden');
+            document.getElementById('main-header').classList.remove('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('main-footer').classList.remove('hidden');
+        }
 
         function checkAuth() {
             const savedUser = localStorage.getItem('dapodik_current_user');
@@ -204,18 +280,21 @@
         }
 
         function updateUIForRole() {
-            const userInfo = document.getElementById('user-info');
             const manageMenuBtn = document.getElementById('btn-manage-menu');
-            const adminBtn = document.getElementById('btn-admin-login');
+            const changeAccessBtn = document.getElementById('btn-change-access-code');
+            const adminLoginBtn = document.getElementById('btn-admin-login');
+            const logoutBtn = document.getElementById('btn-logout');
             
             if (currentUser && currentUser.role === 'admin') {
-                userInfo.classList.remove('hidden');
+                adminLoginBtn.classList.add('hidden');
                 manageMenuBtn.classList.remove('hidden');
-                adminBtn.classList.add('hidden');
+                changeAccessBtn.classList.remove('hidden');
+                logoutBtn.classList.remove('hidden');
             } else {
-                userInfo.classList.add('hidden');
+                adminLoginBtn.classList.remove('hidden');
                 manageMenuBtn.classList.add('hidden');
-                adminBtn.classList.remove('hidden');
+                changeAccessBtn.classList.add('hidden');
+                logoutBtn.classList.add('hidden');
             }
             
             const manageSubMenuBtn = document.getElementById('btn-manage-submenu');
@@ -356,6 +435,7 @@
         let gridColumns = localStorage.getItem('dapodik_grid_columns') || (window.innerWidth < 640 ? '3' : '5');
 
         function init() {
+            checkAccessCode();
             checkAuth();
             loadMenusFromStorage();
             renderMenuCards();
@@ -367,14 +447,11 @@
             const totalItems = menuItems.length;
             const cols = parseInt(gridColumns);
             
-            // Hitung apakah baris terakhir tidak penuh
             const remainder = totalItems % cols;
             
             if (remainder !== 0) {
-                // Jika baris terakhir tidak penuh, gunakan flex untuk memusatkan
                 menuSection.className = `flex flex-wrap gap-4 mb-8 justify-center`;
                 
-                // Set width untuk setiap card
                 const cards = menuSection.querySelectorAll('.menu-card');
                 const cardWidth = `calc((100% - ${(cols - 1) * 16}px) / ${cols})`;
                 cards.forEach(card => {
@@ -382,10 +459,8 @@
                     card.style.maxWidth = cardWidth;
                 });
             } else {
-                // Jika semua baris penuh, gunakan grid normal
                 menuSection.className = `grid grid-cols-${gridColumns} gap-4 mb-8`;
                 
-                // Reset width untuk card
                 const cards = menuSection.querySelectorAll('.menu-card');
                 cards.forEach(card => {
                     card.style.width = '';
@@ -406,10 +481,8 @@
                 const remainder = totalSubMenus % cols;
                 
                 if (remainder !== 0 && totalSubMenus > 0) {
-                    // Jika baris terakhir tidak penuh, gunakan flex untuk memusatkan
                     submenuGrid.className = `flex flex-wrap gap-3 sm:gap-4 justify-center`;
                     
-                    // Set width untuk setiap card
                     const cards = submenuGrid.querySelectorAll('.submenu-card');
                     const cardWidth = `calc((100% - ${(cols - 1) * 16}px) / ${cols})`;
                     cards.forEach(card => {
@@ -417,10 +490,8 @@
                         card.style.maxWidth = cardWidth;
                     });
                 } else {
-                    // Jika semua baris penuh atau belum ada sub menu, gunakan grid normal
                     submenuGrid.className = `grid grid-cols-${gridColumns} gap-3 sm:gap-4`;
                     
-                    // Reset width untuk card
                     const cards = submenuGrid.querySelectorAll('.submenu-card');
                     cards.forEach(card => {
                         card.style.width = '';
@@ -454,7 +525,119 @@
         }
 
         function setupEventListeners() {
+            const btnAdminMenu = document.getElementById('btn-admin-menu');
+            const adminDropdown = document.getElementById('admin-dropdown');
+            
+            btnAdminMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                adminDropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!btnAdminMenu.contains(e.target) && !adminDropdown.contains(e.target)) {
+                    adminDropdown.classList.add('hidden');
+                }
+            });
+
+            const btnToggleAccessCode = document.getElementById('btn-toggle-access-code');
+            if (btnToggleAccessCode) {
+                btnToggleAccessCode.addEventListener('click', function() {
+                    const accessInput = document.getElementById('input-access-code');
+                    
+                    if (accessInput.type === 'password') {
+                        accessInput.type = 'text';
+                        this.textContent = '🙈';
+                    } else {
+                        accessInput.type = 'password';
+                        this.textContent = '👁';
+                    }
+                });
+            }
+
+            document.getElementById('access-code-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const code = document.getElementById('input-access-code').value.trim().toLowerCase();
+                
+                if (code === ACCESS_CODE.toLowerCase()) {
+                    sessionStorage.setItem('sacitra_access_granted', 'true');
+                    document.getElementById('access-error').classList.add('hidden');
+                    document.getElementById('access-code-form').reset();
+                    showDashboard();
+                    showToast('✅ Selamat datang di Sacitra Data Center!', 'success');
+                } else {
+                    document.getElementById('access-error').textContent = '❌ Kode akses salah. Silakan coba lagi.';
+                    document.getElementById('access-error').classList.remove('hidden');
+                }
+            });
+
+            document.getElementById('btn-change-access-code').addEventListener('click', () => {
+                if (currentUser && currentUser.role === 'admin') {
+                    document.getElementById('admin-dropdown').classList.add('hidden');
+                    document.getElementById('change-access-code-modal').classList.remove('hidden');
+                }
+            });
+
+            document.getElementById('btn-cancel-change-access').addEventListener('click', () => {
+                document.getElementById('change-access-code-modal').classList.add('hidden');
+                document.getElementById('change-access-code-form').reset();
+                document.getElementById('change-access-error').classList.add('hidden');
+            });
+
+            document.getElementById('change-access-code-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (currentUser && currentUser.role === 'admin') {
+                    const currentCode = document.getElementById('input-current-access-code').value.trim();
+                    const newCode = document.getElementById('input-new-access-code').value.trim();
+                    const confirmCode = document.getElementById('input-confirm-access-code').value.trim();
+                    
+                    const errorDiv = document.getElementById('change-access-error');
+                    
+                    if (currentCode !== ACCESS_CODE) {
+                        errorDiv.textContent = '❌ Kode akses saat ini salah';
+                        errorDiv.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    if (newCode.length < 3) {
+                        errorDiv.textContent = '❌ Kode akses baru minimal 3 karakter';
+                        errorDiv.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    if (newCode !== confirmCode) {
+                        errorDiv.textContent = '❌ Konfirmasi kode akses tidak cocok';
+                        errorDiv.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    ACCESS_CODE = newCode;
+                    localStorage.setItem('sacitra_access_code', newCode);
+                    
+                    document.getElementById('change-access-code-modal').classList.add('hidden');
+                    document.getElementById('change-access-code-form').reset();
+                    errorDiv.classList.add('hidden');
+                    
+                    showToast('✅ Kode akses berhasil diubah!', 'success');
+                }
+            });
+
+            document.querySelectorAll('.btn-toggle-access-field').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetId = this.dataset.target;
+                    const input = document.getElementById(targetId);
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.textContent = '🙈';
+                    } else {
+                        input.type = 'password';
+                        this.textContent = '👁';
+                    }
+                });
+            });
+
             document.getElementById('btn-admin-login').addEventListener('click', () => {
+                document.getElementById('admin-dropdown').classList.add('hidden');
                 showLoginModal();
             });
 
@@ -484,6 +667,7 @@
             });
 
             document.getElementById('btn-logout').addEventListener('click', () => {
+                document.getElementById('admin-dropdown').classList.add('hidden');
                 currentUser = null;
                 localStorage.removeItem('dapodik_current_user');
                 updateUIForRole();
@@ -494,6 +678,7 @@
 
             document.getElementById('btn-manage-menu').addEventListener('click', () => {
                 if (currentUser && currentUser.role === 'admin') {
+                    document.getElementById('admin-dropdown').classList.add('hidden');
                     renderMenuList();
                     document.getElementById('manage-menu-modal').classList.remove('hidden');
                 }
@@ -510,16 +695,13 @@
                 gridColumns = e.target.value;
                 localStorage.setItem('dapodik_grid_columns', gridColumns);
                 
-                // Cek apakah sedang di tampilan sub menu
                 const isSubMenuVisible = !document.getElementById('submenu-section').classList.contains('hidden');
                 
                 if (isSubMenuVisible && currentMenuId) {
-                    // Jika di sub menu, hanya update grid sub menu
                     const menu = menuItems.find(m => m.id === currentMenuId);
                     const subMenuCount = menu && menu.subMenus ? menu.subMenus.length : 0;
                     updateSubMenuGrid(subMenuCount);
                 } else {
-                    // Jika di menu utama, update grid menu utama
                     updateGridColumns();
                 }
                 
@@ -572,16 +754,15 @@
                 showMenuSection();
             });
 
-            document.getElementById('btn-toggle-password').addEventListener('click', () => {
+            document.getElementById('btn-toggle-password').addEventListener('click', function() {
                 const passwordInput = document.getElementById('input-password');
-                const eyeIcon = document.getElementById('eye-icon');
                 
                 if (passwordInput.type === 'password') {
                     passwordInput.type = 'text';
-                    eyeIcon.textContent = '🙈';
+                    this.textContent = '🙈';
                 } else {
                     passwordInput.type = 'password';
-                    eyeIcon.textContent = '    ️';
+                    this.textContent = '👁';
                 }
             });
         }
@@ -650,7 +831,7 @@
             const description = document.getElementById('input-menu-description').value.trim();
 
             if (!title || !icon || !description) {
-                showToast('❌ Semua field harus diisi', 'error');
+                showToast('��� Semua field harus diisi', 'error');
                 return;
             }
 
@@ -887,7 +1068,6 @@
             const menu = menuItems.find(m => m.id === menuId);
             if (!menu) return;
 
-            // Hide menu section and show submenu section
             document.getElementById('menu-section').classList.add('hidden');
             const dataSection = document.getElementById('data-section');
             if (dataSection) {
@@ -895,11 +1075,9 @@
             }
             document.getElementById('submenu-section').classList.remove('hidden');
             
-            // Update submenu header
             document.getElementById('submenu-title').textContent = menu.title;
             document.getElementById('submenu-icon').textContent = menu.icon;
             
-            // Show/hide manage button based on role
             const manageSubMenuBtn = document.getElementById('btn-manage-submenu');
             if (currentUser && currentUser.role === 'admin') {
                 manageSubMenuBtn.classList.remove('hidden');
@@ -907,7 +1085,6 @@
                 manageSubMenuBtn.classList.add('hidden');
             }
             
-            // Render sub menu cards
             const submenuGrid = document.getElementById('submenu-grid');
             const subMenus = menu.subMenus || [];
             
@@ -921,17 +1098,15 @@
                 <div class="submenu-card rounded-lg shadow-md p-5 cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 ${!sub.sheetUrl ? 'opacity-60' : ''}" data-sheet="${sub.sheet}" data-url="${sub.sheetUrl || ''}" style="background: linear-gradient(135deg, rgba(0, 140, 158, 0.1) 0%, rgba(0, 107, 125, 0.15) 100%); border: 2px solid #006b7d;">
                     <div class="flex items-start justify-between mb-2">
                         <h4 class="text-lg font-bold text-gray-900 flex-1">${sub.title}</h4>
-                        ${sub.sheetUrl ? '<span style="color: #006b7d;" class="text-xl">✓</span>' : '<span class="text-red-500 text-xl">⚠️</span>'}
+                        ${sub.sheetUrl ? '<span style="color: #006b7d;" class="text-xl">✓</span>' : '<span class="text-red-500 text-xl">���️</span>'}
                     </div>
                     <p class="text-xs text-gray-600 mb-2">📄 Sheet: <span class="font-mono bg-white px-2 py-1 rounded">${sub.sheet}</span></p>
                     ${!sub.sheetUrl ? '<p class="text-xs text-red-600 font-medium mt-2">⚠️ URL belum dikonfigurasi</p>' : '<p class="text-xs font-medium mt-2" style="color: #006b7d;">✅ Klik untuk membuka sheet</p>'}
                 </div>
             `).join('');
             
-            // Apply grid columns after rendering
             updateSubMenuGrid(subMenus.length);
 
-            // Add click handlers for sub menu cards
             document.querySelectorAll('.submenu-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const url = card.dataset.url;
@@ -975,5 +1150,5 @@
 
         init();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b5639577554fe87',t:'MTc2Njk3OTA4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b573ecbf2606014',t:'MTc2Njk4OTc5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
