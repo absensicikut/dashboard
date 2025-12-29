@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sacitra Data Center - SMK Negeri 1 Cikarang Utara</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .menu-card {
+            transition: all 0.3s ease;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .icon-container {
+            transition: all 0.3s ease;
+        }
+        
+        .menu-card:hover .icon-container {
+            transform: scale(1.1);
+        }
+        
+        .data-table {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #00a7b9;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="min-h-screen flex flex-col" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);">
+  <div id="app" class="w-full flex-1 flex flex-col"><!-- Header -->
+   <header class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3 sm:gap-4"><img src="https://www.smkn1cikarangutara.sch.id/upload/imagecache/28025611logosekolah-600x600.png" alt="Logo SMK Negeri 1 Cikarang Utara" width="60" height="60" class="flex-shrink-0 rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+       <svg width="60" height="60" viewbox="0 0 60 60" class="flex-shrink-0" style="display: none;"><defs>
+         <lineargradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#00d4e8;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#00a7b9;stop-opacity:1" />
+         </lineargradient>
+        </defs> <rect width="60" height="60" rx="12" fill="url(#logoGradient)" /> <path d="M30 15L18 25V45H26V35H34V45H42V25L30 15Z" fill="white" /> <circle cx="30" cy="28" r="2" fill="#00a7b9" />
+       </svg>
+       <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Sacitra Data Center</h1>
+        <p class="text-sm text-gray-600 mt-1">SMK Negeri 1 Cikarang Utara</p>
+       </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2"><button id="btn-refresh" class="text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> 🔄 <span class="hidden sm:inline">Refresh</span> </button> <select id="column-dropdown" class="bg-white border border-gray-300 text-gray-700 px-3 py-2 text-sm rounded-lg font-medium focus:ring-2 focus:border-transparent" style="--tw-ring-color: #00a7b9;"> <option value="3">3</option> <option value="5">5</option> <option value="7">7</option> </select> <button id="btn-manage-menu" class="hidden text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> ⚙️ <span class="hidden sm:inline">Kelola Menu</span> </button> <button id="btn-admin-login" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors"> 👑 <span class="hidden sm:inline">Admin</span> </button>
+       <div id="user-info" class="hidden flex items-center gap-2"><span id="role-badge" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors"> 👑 <span class="hidden sm:inline">Admin</span> </span> <button id="btn-logout" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors"> 🚪 <span class="hidden sm:inline">Logout</span> </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"><!-- Menu Grid -->
+    <div id="menu-section" class="grid gap-4 mb-8"><!-- Menu Cards will be generated here -->
+    </div><!-- Sub Menu Section -->
+    <div id="submenu-section" class="hidden">
+     <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+       <div class="flex items-center space-x-3 sm:space-x-4"><span id="submenu-icon" class="text-4xl sm:text-5xl"></span>
+        <div>
+         <h2 id="submenu-title" class="text-xl sm:text-2xl font-bold text-gray-900"></h2>
+         <p class="text-xs sm:text-sm text-gray-600">Pilih sub menu untuk melihat data</p>
+        </div>
+       </div>
+       <div class="flex flex-wrap gap-2 w-full sm:w-auto"><button id="btn-manage-submenu" class="hidden bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors flex-1 sm:flex-initial"> ⚙️ <span class="hidden sm:inline">Kelola</span> Sub Menu </button> <button id="btn-back-main" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 text-sm sm:px-4 rounded-lg font-medium transition-colors flex-1 sm:flex-initial"> ← Kembali </button>
+       </div>
+      </div>
+      <div id="submenu-grid" class="grid gap-3 sm:gap-4"><!-- Sub menu cards will be generated here -->
+      </div>
+     </div>
+    </div>
+   </main><!-- Footer -->
+   <footer class="bg-white shadow-lg mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+     <p class="text-center text-gray-600 text-sm">© 2026 Sacitra Data Center - SMK Negeri 1 Cikarang Utara</p>
+    </div>
+   </footer><!-- Manage Menu Modal -->
+   <div id="manage-menu-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl p-6 max-w-4xl w-full mx-4 max-h-[90%] overflow-y-auto">
+     <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-bold text-gray-900">Kelola Menu</h3><button id="btn-add-menu" class="text-white px-4 py-2 rounded-lg font-medium transition-colors" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> ➕ Tambah Menu Baru </button>
+     </div>
+     <div id="menu-list" class="space-y-3 mb-6"></div>
+     <div class="flex justify-end"><button id="btn-close-manage" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"> Tutup </button>
+     </div>
+    </div>
+   </div><!-- Add/Edit Menu Modal -->
+   <div id="add-menu-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full mx-4">
+     <h3 id="menu-form-title" class="text-xl font-bold text-gray-900 mb-4">Tambah Menu Baru</h3>
+     <form id="menu-form" class="space-y-4">
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Judul Menu *</label> <input type="text" id="input-menu-title" required placeholder="Contoh: Data Perpustakaan" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      </div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Icon Emoji *</label> <input type="text" id="input-menu-icon" required placeholder="Contoh: 📚" maxlength="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      </div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi *</label> <textarea id="input-menu-description" required placeholder="Contoh: Data buku dan peminjaman perpustakaan" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #00a7b9;"></textarea>
+      </div>
+      <div class="flex justify-end space-x-3 pt-2"><button type="button" id="btn-cancel-menu" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"> Batal </button> <button type="submit" class="text-white px-4 py-2 rounded-lg font-medium transition-all" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> Simpan </button>
+      </div>
+     </form>
+    </div>
+   </div><!-- Manage Sub Menu Modal -->
+   <div id="manage-submenu-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl p-6 max-w-4xl w-full mx-4 max-h-[90%] overflow-y-auto">
+     <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-bold text-gray-900">Kelola Sub Menu</h3><button id="btn-add-submenu" class="text-white px-4 py-2 rounded-lg font-medium transition-all" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> ➕ Tambah Sub Menu </button>
+     </div>
+     <div id="submenu-list" class="space-y-3 mb-6"></div>
+     <div class="flex justify-end"><button id="btn-close-submenu-manage" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"> Tutup </button>
+     </div>
+    </div>
+   </div><!-- Add/Edit Sub Menu Modal -->
+   <div id="add-submenu-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full mx-4">
+     <h3 id="submenu-form-title" class="text-xl font-bold text-gray-900 mb-4">Tambah Sub Menu</h3>
+     <form id="submenu-form" class="space-y-4">
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Judul Sub Menu *</label> <input type="text" id="input-submenu-title" required placeholder="Contoh: Data Peminjaman" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #00a7b9;">
+      </div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Nama Sheet *</label> <input type="text" id="input-submenu-sheet" required placeholder="Contoh: Perpustakaan_Peminjaman" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #00a7b9;">
+       <p class="text-xs text-gray-500 mt-1">Nama sheet harus SAMA PERSIS dengan nama di Google Sheets (huruf besar/kecil, spasi, underscore)</p>
+      </div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Google Sheets URL *</label> <input type="text" id="input-submenu-url" required placeholder="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #00a7b9;">
+       <p class="text-xs text-gray-500 mt-1">Paste URL lengkap Google Sheets yang sudah dibagikan ke publik</p>
+      </div>
+      <div class="bg-yellow-50 border border-yellow-200 rounded p-3">
+       <p class="text-xs text-yellow-800"><strong>⚠️ Penting:</strong> Google Sheets harus dibagikan sebagai "Anyone with the link can view"</p>
+      </div>
+      <div class="flex justify-end space-x-3 pt-2"><button type="button" id="btn-cancel-submenu" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"> Batal </button> <button type="submit" class="text-white px-4 py-2 rounded-lg font-medium transition-all" style="background: linear-gradient(135deg, #00d4e8 0%, #00a7b9 100%);"> Simpan </button>
+      </div>
+     </form>
+    </div>
+   </div><!-- Login Modal -->
+   <div id="login-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl p-6 sm:p-8 max-w-md w-full">
+     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 text-center">👑 Login Admin</h3>
+     <p class="text-sm text-gray-600 mb-6 text-center">📧 mhdfoeadcikut85@gmail.com</p>
+     <form id="login-form" class="space-y-4">
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Username *</label> <input type="text" id="input-username" required placeholder="Masukkan username" class="w-full px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;">
+      </div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+       <div class="relative"><input type="password" id="input-password" required placeholder="Masukkan password" class="w-full px-4 py-2 pr-12 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style="--tw-ring-color: #006b7d;"> <button type="button" id="btn-toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"> <span id="eye-icon">👁️</span> </button>
+       </div>
+      </div>
+      <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm"></div>
+      <div class="flex flex-col sm:flex-row gap-2 pt-2"><button type="submit" class="flex-1 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg text-sm sm:text-base" style="background: linear-gradient(135deg, #008c9e 0%, #006b7d 100%);"> Login Admin </button> <button type="button" id="btn-cancel-login" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-lg font-medium transition-colors text-sm sm:text-base"> Batal </button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div>
+  <script>
+        const adminCredentials = {
+            username: 'administrator',
+            password: 'admin20247250'
+        };
+
+        let currentUser = null;
+
+        function checkAuth() {
+            const savedUser = localStorage.getItem('dapodik_current_user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                } catch (e) {
+                    currentUser = null;
+                }
+            }
+            updateUIForRole();
+        }
+
+        function showLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        function updateUIForRole() {
+            const userInfo = document.getElementById('user-info');
+            const manageMenuBtn = document.getElementById('btn-manage-menu');
+            const adminBtn = document.getElementById('btn-admin-login');
+            
+            if (currentUser && currentUser.role === 'admin') {
+                userInfo.classList.remove('hidden');
+                manageMenuBtn.classList.remove('hidden');
+                adminBtn.classList.add('hidden');
+            } else {
+                userInfo.classList.add('hidden');
+                manageMenuBtn.classList.add('hidden');
+                adminBtn.classList.remove('hidden');
+            }
+            
+            const manageSubMenuBtn = document.getElementById('btn-manage-submenu');
+            if (manageSubMenuBtn) {
+                if (currentUser && currentUser.role === 'admin') {
+                    manageSubMenuBtn.classList.remove('hidden');
+                } else {
+                    manageSubMenuBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        let menuItems = [
+            { 
+                id: 'peserta_didik', 
+                title: 'Peserta Didik', 
+                icon: '👨‍🎓', 
+                description: 'Data siswa dan informasi peserta didik',
+                subMenus: [
+                    { id: 'pd_identitas', title: 'Identitas Peserta Didik', sheet: 'PD_Identitas', sheetUrl: '' },
+                    { id: 'pd_registrasi', title: 'Registrasi Peserta Didik', sheet: 'PD_Registrasi', sheetUrl: '' },
+                    { id: 'pd_periodik', title: 'Data Periodik', sheet: 'PD_Periodik', sheetUrl: '' },
+                    { id: 'pd_kesehatan', title: 'Kesehatan', sheet: 'PD_Kesehatan', sheetUrl: '' },
+                    { id: 'pd_beasiswa', title: 'Beasiswa', sheet: 'PD_Beasiswa', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'ptk', 
+                title: 'PTK', 
+                icon: '👨‍🏫', 
+                description: 'Data Pendidik dan Tenaga Kependidikan',
+                subMenus: [
+                    { id: 'ptk_identitas', title: 'Identitas PTK', sheet: 'PTK_Identitas', sheetUrl: '' },
+                    { id: 'ptk_tugas', title: 'Penugasan', sheet: 'PTK_Tugas', sheetUrl: '' },
+                    { id: 'ptk_sertifikasi', title: 'Sertifikasi', sheet: 'PTK_Sertifikasi', sheetUrl: '' },
+                    { id: 'ptk_inpassing', title: 'Inpassing', sheet: 'PTK_Inpassing', sheetUrl: '' },
+                    { id: 'ptk_tunjangan', title: 'Tunjangan', sheet: 'PTK_Tunjangan', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'sekolah', 
+                title: 'Data Sekolah', 
+                icon: '🏫', 
+                description: 'Informasi profil dan identitas sekolah',
+                subMenus: [
+                    { id: 'sekolah_identitas', title: 'Identitas Sekolah', sheet: 'Sekolah_Identitas', sheetUrl: '' },
+                    { id: 'sekolah_kontak', title: 'Kontak Sekolah', sheet: 'Sekolah_Kontak', sheetUrl: '' },
+                    { id: 'sekolah_rekening', title: 'Rekening', sheet: 'Sekolah_Rekening', sheetUrl: '' },
+                    { id: 'sekolah_sanitasi', title: 'Sanitasi', sheet: 'Sekolah_Sanitasi', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'rombel', 
+                title: 'Rombongan Belajar', 
+                icon: '👥', 
+                description: 'Data kelas dan rombongan belajar',
+                subMenus: [
+                    { id: 'rombel_data', title: 'Data Rombongan Belajar', sheet: 'Rombel_Data', sheetUrl: '' },
+                    { id: 'rombel_anggota', title: 'Anggota Rombel', sheet: 'Rombel_Anggota', sheetUrl: '' },
+                    { id: 'rombel_pembelajaran', title: 'Pembelajaran', sheet: 'Rombel_Pembelajaran', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'sarpras', 
+                title: 'Sarana Prasarana', 
+                icon: '🏗️', 
+                description: 'Data sarana dan prasarana sekolah',
+                subMenus: [
+                    { id: 'sarpras_tanah', title: 'Tanah', sheet: 'Sarpras_Tanah', sheetUrl: '' },
+                    { id: 'sarpras_bangunan', title: 'Bangunan', sheet: 'Sarpras_Bangunan', sheetUrl: '' },
+                    { id: 'sarpras_ruang', title: 'Ruang', sheet: 'Sarpras_Ruang', sheetUrl: '' },
+                    { id: 'sarpras_alat', title: 'Alat', sheet: 'Sarpras_Alat', sheetUrl: '' },
+                    { id: 'sarpras_buku', title: 'Buku', sheet: 'Sarpras_Buku', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'kurikulum', 
+                title: 'Kurikulum', 
+                icon: '📖', 
+                description: 'Data kurikulum dan mata pelajaran',
+                subMenus: [
+                    { id: 'kurikulum_struktur', title: 'Struktur Kurikulum', sheet: 'Kurikulum_Struktur', sheetUrl: '' },
+                    { id: 'kurikulum_mapel', title: 'Mata Pelajaran', sheet: 'Kurikulum_Mapel', sheetUrl: '' },
+                    { id: 'kurikulum_kompetensi', title: 'Kompetensi Keahlian', sheet: 'Kurikulum_Kompetensi', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'nilai', 
+                title: 'Nilai', 
+                icon: '📊', 
+                description: 'Data nilai dan penilaian siswa',
+                subMenus: [
+                    { id: 'nilai_rapor', title: 'Nilai Rapor', sheet: 'Nilai_Rapor', sheetUrl: '' },
+                    { id: 'nilai_pts', title: 'Nilai PTS', sheet: 'Nilai_PTS', sheetUrl: '' },
+                    { id: 'nilai_pas', title: 'Nilai PAS', sheet: 'Nilai_PAS', sheetUrl: '' },
+                    { id: 'nilai_pkl', title: 'Nilai PKL', sheet: 'Nilai_PKL', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'kehadiran', 
+                title: 'Kehadiran', 
+                icon: '✅', 
+                description: 'Data kehadiran siswa dan PTK',
+                subMenus: [
+                    { id: 'kehadiran_siswa', title: 'Kehadiran Siswa', sheet: 'Kehadiran_Siswa', sheetUrl: '' },
+                    { id: 'kehadiran_ptk', title: 'Kehadiran PTK', sheet: 'Kehadiran_PTK', sheetUrl: '' }
+                ]
+            },
+            { 
+                id: 'alumni', 
+                title: 'Alumni', 
+                icon: '🎓', 
+                description: 'Data lulusan dan alumni',
+                subMenus: [
+                    { id: 'alumni_data', title: 'Data Alumni', sheet: 'Alumni_Data', sheetUrl: '' },
+                    { id: 'alumni_penelusuran', title: 'Penelusuran Alumni', sheet: 'Alumni_Penelusuran', sheetUrl: '' }
+                ]
+            }
+        ];
+
+        const loadMenusFromStorage = () => {
+            const savedMenus = localStorage.getItem('dapodik_custom_menus');
+            if (savedMenus) {
+                try {
+                    menuItems = JSON.parse(savedMenus);
+                } catch (e) {
+                    console.error('Error loading menus:', e);
+                }
+            }
+        };
+
+        const saveMenusToStorage = () => {
+            localStorage.setItem('dapodik_custom_menus', JSON.stringify(menuItems));
+        };
+
+        let editingMenuId = null;
+        let editingSubMenuId = null;
+        let gridColumns = localStorage.getItem('dapodik_grid_columns') || (window.innerWidth < 640 ? '3' : '5');
+
+        function init() {
+            checkAuth();
+            loadMenusFromStorage();
+            renderMenuCards();
+            setupEventListeners();
+        }
+
+        function updateGridColumns() {
+            const menuSection = document.getElementById('menu-section');
+            const totalItems = menuItems.length;
+            const cols = parseInt(gridColumns);
+            
+            // Hitung apakah baris terakhir tidak penuh
+            const remainder = totalItems % cols;
+            
+            if (remainder !== 0) {
+                // Jika baris terakhir tidak penuh, gunakan flex untuk memusatkan
+                menuSection.className = `flex flex-wrap gap-4 mb-8 justify-center`;
+                
+                // Set width untuk setiap card
+                const cards = menuSection.querySelectorAll('.menu-card');
+                const cardWidth = `calc((100% - ${(cols - 1) * 16}px) / ${cols})`;
+                cards.forEach(card => {
+                    card.style.width = cardWidth;
+                    card.style.maxWidth = cardWidth;
+                });
+            } else {
+                // Jika semua baris penuh, gunakan grid normal
+                menuSection.className = `grid grid-cols-${gridColumns} gap-4 mb-8`;
+                
+                // Reset width untuk card
+                const cards = menuSection.querySelectorAll('.menu-card');
+                cards.forEach(card => {
+                    card.style.width = '';
+                    card.style.maxWidth = '';
+                });
+            }
+            
+            const dropdown = document.getElementById('column-dropdown');
+            if (dropdown) {
+                dropdown.value = gridColumns;
+            }
+        }
+
+        function updateSubMenuGrid(totalSubMenus = 0) {
+            const submenuGrid = document.getElementById('submenu-grid');
+            if (submenuGrid) {
+                const cols = parseInt(gridColumns);
+                const remainder = totalSubMenus % cols;
+                
+                if (remainder !== 0 && totalSubMenus > 0) {
+                    // Jika baris terakhir tidak penuh, gunakan flex untuk memusatkan
+                    submenuGrid.className = `flex flex-wrap gap-3 sm:gap-4 justify-center`;
+                    
+                    // Set width untuk setiap card
+                    const cards = submenuGrid.querySelectorAll('.submenu-card');
+                    const cardWidth = `calc((100% - ${(cols - 1) * 16}px) / ${cols})`;
+                    cards.forEach(card => {
+                        card.style.width = cardWidth;
+                        card.style.maxWidth = cardWidth;
+                    });
+                } else {
+                    // Jika semua baris penuh atau belum ada sub menu, gunakan grid normal
+                    submenuGrid.className = `grid grid-cols-${gridColumns} gap-3 sm:gap-4`;
+                    
+                    // Reset width untuk card
+                    const cards = submenuGrid.querySelectorAll('.submenu-card');
+                    cards.forEach(card => {
+                        card.style.width = '';
+                        card.style.maxWidth = '';
+                    });
+                }
+            }
+        }
+
+        function renderMenuCards() {
+            const menuSection = document.getElementById('menu-section');
+            const cardsHTML = menuItems.map(item => `
+                <div class="menu-card bg-white rounded-lg shadow-lg p-6 cursor-pointer w-full flex flex-col" data-menu-id="${item.id}">
+                    <div class="icon-container text-5xl mb-4">${item.icon}</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">${item.title}</h3>
+                    <p class="text-gray-600 text-sm mb-3 flex-1">${item.description}</p>
+                    <div class="text-xs font-medium mt-auto" style="color: #006b7d;">${item.subMenus ? item.subMenus.length : 0} sub menu</div>
+                </div>
+            `).join('');
+            
+            menuSection.innerHTML = cardsHTML;
+
+            document.querySelectorAll('.menu-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const menuId = card.dataset.menuId;
+                    showSubMenus(menuId);
+                });
+            });
+            
+            updateGridColumns();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('btn-admin-login').addEventListener('click', () => {
+                showLoginModal();
+            });
+
+            document.getElementById('btn-cancel-login').addEventListener('click', () => {
+                document.getElementById('login-modal').classList.add('hidden');
+                document.getElementById('login-form').reset();
+                document.getElementById('login-error').classList.add('hidden');
+            });
+
+            document.getElementById('login-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('input-username').value.trim();
+                const password = document.getElementById('input-password').value.trim();
+                
+                if (username === adminCredentials.username && password === adminCredentials.password) {
+                    currentUser = { username: username, role: 'admin' };
+                    localStorage.setItem('dapodik_current_user', JSON.stringify(currentUser));
+                    document.getElementById('login-modal').classList.add('hidden');
+                    document.getElementById('login-error').classList.add('hidden');
+                    document.getElementById('login-form').reset();
+                    updateUIForRole();
+                    showToast('✅ Selamat datang, Admin!', 'success');
+                } else {
+                    document.getElementById('login-error').textContent = '❌ Username atau password salah';
+                    document.getElementById('login-error').classList.remove('hidden');
+                }
+            });
+
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                currentUser = null;
+                localStorage.removeItem('dapodik_current_user');
+                updateUIForRole();
+                document.getElementById('login-form').reset();
+                document.getElementById('login-error').classList.add('hidden');
+                showToast('👋 Berhasil logout', 'info');
+            });
+
+            document.getElementById('btn-manage-menu').addEventListener('click', () => {
+                if (currentUser && currentUser.role === 'admin') {
+                    renderMenuList();
+                    document.getElementById('manage-menu-modal').classList.remove('hidden');
+                }
+            });
+
+            document.getElementById('btn-manage-submenu').addEventListener('click', () => {
+                if (currentUser && currentUser.role === 'admin' && currentMenuId) {
+                    renderSubMenuList(currentMenuId);
+                    document.getElementById('manage-submenu-modal').classList.remove('hidden');
+                }
+            });
+
+            document.getElementById('column-dropdown').addEventListener('change', (e) => {
+                gridColumns = e.target.value;
+                localStorage.setItem('dapodik_grid_columns', gridColumns);
+                
+                // Cek apakah sedang di tampilan sub menu
+                const isSubMenuVisible = !document.getElementById('submenu-section').classList.contains('hidden');
+                
+                if (isSubMenuVisible && currentMenuId) {
+                    // Jika di sub menu, hanya update grid sub menu
+                    const menu = menuItems.find(m => m.id === currentMenuId);
+                    const subMenuCount = menu && menu.subMenus ? menu.subMenus.length : 0;
+                    updateSubMenuGrid(subMenuCount);
+                } else {
+                    // Jika di menu utama, update grid menu utama
+                    updateGridColumns();
+                }
+                
+                showToast(`✅ Tampilan diubah ke ${gridColumns} kolom`, 'success');
+            });
+
+            document.getElementById('btn-close-manage').addEventListener('click', () => {
+                document.getElementById('manage-menu-modal').classList.add('hidden');
+            });
+
+            document.getElementById('btn-add-menu').addEventListener('click', () => {
+                if (currentUser && currentUser.role === 'admin') {
+                    openMenuForm();
+                }
+            });
+
+            document.getElementById('btn-cancel-menu').addEventListener('click', () => {
+                document.getElementById('add-menu-modal').classList.add('hidden');
+            });
+
+            document.getElementById('menu-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (currentUser && currentUser.role === 'admin') {
+                    saveMenu();
+                }
+            });
+
+            document.getElementById('btn-close-submenu-manage').addEventListener('click', () => {
+                document.getElementById('manage-submenu-modal').classList.add('hidden');
+            });
+
+            document.getElementById('btn-add-submenu').addEventListener('click', () => {
+                if (currentUser && currentUser.role === 'admin') {
+                    openSubMenuForm();
+                }
+            });
+
+            document.getElementById('btn-cancel-submenu').addEventListener('click', () => {
+                document.getElementById('add-submenu-modal').classList.add('hidden');
+            });
+
+            document.getElementById('submenu-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (currentUser && currentUser.role === 'admin') {
+                    saveSubMenu();
+                }
+            });
+
+            document.getElementById('btn-back-main').addEventListener('click', () => {
+                showMenuSection();
+            });
+
+            document.getElementById('btn-toggle-password').addEventListener('click', () => {
+                const passwordInput = document.getElementById('input-password');
+                const eyeIcon = document.getElementById('eye-icon');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.textContent = '🙈';
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.textContent = '    ️';
+                }
+            });
+        }
+
+        function renderMenuList() {
+            const menuList = document.getElementById('menu-list');
+            menuList.innerHTML = menuItems.map((item, index) => `
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between hover:bg-gray-100 transition-colors">
+                    <div class="flex items-center space-x-4">
+                        <span class="text-3xl">${item.icon}</span>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">${item.title}</h4>
+                            <p class="text-sm text-gray-600">${item.description}</p>
+                            <p class="text-xs text-gray-500 mt-1">${item.subMenus ? item.subMenus.length : 0} sub menu</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="btn-edit-menu text-white px-3 py-1 rounded text-sm transition-all shadow-sm hover:shadow-md" data-id="${item.id}" style="background: linear-gradient(135deg, #008c9e 0%, #006b7d 100%);">
+                            ✏️ Edit
+                        </button>
+                        <button class="btn-delete-menu bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition-colors" data-id="${item.id}">
+                            🗑️ Hapus
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.btn-edit-menu').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const menuId = btn.dataset.id;
+                    openMenuForm(menuId);
+                });
+            });
+
+            document.querySelectorAll('.btn-delete-menu').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const menuId = btn.dataset.id;
+                    deleteMenu(menuId);
+                });
+            });
+        }
+
+        function openMenuForm(menuId = null) {
+            editingMenuId = menuId;
+            const formTitle = document.getElementById('menu-form-title');
+            
+            if (menuId) {
+                const menu = menuItems.find(m => m.id === menuId);
+                if (menu) {
+                    formTitle.textContent = 'Edit Menu';
+                    document.getElementById('input-menu-title').value = menu.title;
+                    document.getElementById('input-menu-icon').value = menu.icon;
+                    document.getElementById('input-menu-description').value = menu.description;
+                }
+            } else {
+                formTitle.textContent = 'Tambah Menu Baru';
+                document.getElementById('menu-form').reset();
+            }
+            
+            document.getElementById('add-menu-modal').classList.remove('hidden');
+        }
+
+        function saveMenu() {
+            const title = document.getElementById('input-menu-title').value.trim();
+            const icon = document.getElementById('input-menu-icon').value.trim();
+            const description = document.getElementById('input-menu-description').value.trim();
+
+            if (!title || !icon || !description) {
+                showToast('❌ Semua field harus diisi', 'error');
+                return;
+            }
+
+            if (editingMenuId) {
+                const index = menuItems.findIndex(m => m.id === editingMenuId);
+                if (index !== -1) {
+                    menuItems[index] = {
+                        ...menuItems[index],
+                        title,
+                        icon,
+                        description
+                    };
+                    showToast('✅ Menu berhasil diperbarui', 'success');
+                }
+            } else {
+                const newMenu = {
+                    id: 'custom_' + Date.now(),
+                    title,
+                    icon,
+                    description,
+                    subMenus: []
+                };
+                menuItems.push(newMenu);
+                showToast('✅ Menu baru berhasil ditambahkan', 'success');
+            }
+
+            saveMenusToStorage();
+            renderMenuCards();
+            renderMenuList();
+            document.getElementById('add-menu-modal').classList.add('hidden');
+            document.getElementById('menu-form').reset();
+        }
+
+        function renderSubMenuList(menuId) {
+            const menu = menuItems.find(m => m.id === menuId);
+            if (!menu) return;
+
+            const submenuList = document.getElementById('submenu-list');
+            const subMenus = menu.subMenus || [];
+
+            if (subMenus.length === 0) {
+                submenuList.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada sub menu. Klik "Tambah Sub Menu" untuk menambahkan.</p>';
+                return;
+            }
+
+            submenuList.innerHTML = subMenus.map((sub, index) => `
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between hover:bg-gray-100 transition-colors">
+                    <div>
+                        <h4 class="font-semibold text-gray-900">${sub.title}</h4>
+                        <p class="text-xs text-gray-500 mt-1">Sheet: ${sub.sheet}</p>
+                        <p class="text-xs text-gray-400 mt-1">${sub.sheetUrl ? '✅ URL tersimpan' : '⚠️ Belum ada URL'}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="btn-edit-submenu text-white px-3 py-1 rounded text-sm transition-all shadow-sm hover:shadow-md" data-id="${sub.id}" style="background: linear-gradient(135deg, #008c9e 0%, #006b7d 100%);">
+                            ✏️ Edit
+                        </button>
+                        <button class="btn-delete-submenu bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition-colors" data-id="${sub.id}">
+                            🗑️ Hapus
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.btn-edit-submenu').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const subId = btn.dataset.id;
+                    openSubMenuForm(subId);
+                });
+            });
+
+            document.querySelectorAll('.btn-delete-submenu').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const subId = btn.dataset.id;
+                    deleteSubMenu(subId);
+                });
+            });
+        }
+
+        function openSubMenuForm(subMenuId = null) {
+            editingSubMenuId = subMenuId;
+            const formTitle = document.getElementById('submenu-form-title');
+            
+            if (subMenuId) {
+                const menu = menuItems.find(m => m.id === currentMenuId);
+                const subMenu = menu.subMenus.find(s => s.id === subMenuId);
+                if (subMenu) {
+                    formTitle.textContent = 'Edit Sub Menu';
+                    document.getElementById('input-submenu-title').value = subMenu.title;
+                    document.getElementById('input-submenu-sheet').value = subMenu.sheet;
+                    document.getElementById('input-submenu-url').value = subMenu.sheetUrl || '';
+                }
+            } else {
+                formTitle.textContent = 'Tambah Sub Menu';
+                document.getElementById('submenu-form').reset();
+            }
+            
+            document.getElementById('add-submenu-modal').classList.remove('hidden');
+        }
+
+        function saveSubMenu() {
+            const title = document.getElementById('input-submenu-title').value.trim();
+            const sheet = document.getElementById('input-submenu-sheet').value.trim();
+            const sheetUrl = document.getElementById('input-submenu-url').value.trim();
+
+            if (!title || !sheet || !sheetUrl) {
+                showToast('❌ Semua field harus diisi', 'error');
+                return;
+            }
+
+            if (!sheetUrl.includes('docs.google.com/spreadsheets')) {
+                showToast('❌ URL Google Sheets tidak valid', 'error');
+                return;
+            }
+
+            const menuIndex = menuItems.findIndex(m => m.id === currentMenuId);
+            if (menuIndex === -1) return;
+
+            if (!menuItems[menuIndex].subMenus) {
+                menuItems[menuIndex].subMenus = [];
+            }
+
+            if (editingSubMenuId) {
+                const subIndex = menuItems[menuIndex].subMenus.findIndex(s => s.id === editingSubMenuId);
+                if (subIndex !== -1) {
+                    menuItems[menuIndex].subMenus[subIndex] = {
+                        ...menuItems[menuIndex].subMenus[subIndex],
+                        title,
+                        sheet,
+                        sheetUrl
+                    };
+                    showToast('✅ Sub menu berhasil diperbarui', 'success');
+                }
+            } else {
+                const newSubMenu = {
+                    id: 'sub_' + Date.now(),
+                    title,
+                    sheet,
+                    sheetUrl
+                };
+                menuItems[menuIndex].subMenus.push(newSubMenu);
+                showToast('✅ Sub menu baru berhasil ditambahkan', 'success');
+            }
+
+            saveMenusToStorage();
+            renderSubMenuList(currentMenuId);
+            showSubMenus(currentMenuId);
+            document.getElementById('add-submenu-modal').classList.add('hidden');
+            document.getElementById('submenu-form').reset();
+        }
+
+        function deleteSubMenu(subMenuId) {
+            const submenuList = document.getElementById('submenu-list');
+            const submenuElement = event.target.closest('.bg-gray-50');
+            
+            const originalHTML = submenuElement.innerHTML;
+            
+            submenuElement.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <p class="text-gray-900 font-medium">Yakin ingin menghapus sub menu ini?</p>
+                    <div class="flex space-x-2">
+                        <button class="btn-confirm-delete-sub bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-medium transition-colors">
+                            Ya, Hapus
+                        </button>
+                        <button class="btn-cancel-delete-sub bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded font-medium transition-colors">
+                            Batal
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            submenuElement.querySelector('.btn-confirm-delete-sub').addEventListener('click', () => {
+                const menuIndex = menuItems.findIndex(m => m.id === currentMenuId);
+                if (menuIndex !== -1) {
+                    const subIndex = menuItems[menuIndex].subMenus.findIndex(s => s.id === subMenuId);
+                    if (subIndex !== -1) {
+                        menuItems[menuIndex].subMenus.splice(subIndex, 1);
+                        saveMenusToStorage();
+                        renderSubMenuList(currentMenuId);
+                        showSubMenus(currentMenuId);
+                        showToast('✅ Sub menu berhasil dihapus', 'success');
+                    }
+                }
+            });
+
+            submenuElement.querySelector('.btn-cancel-delete-sub').addEventListener('click', () => {
+                submenuElement.innerHTML = originalHTML;
+                renderSubMenuList(currentMenuId);
+            });
+        }
+
+        function deleteMenu(menuId) {
+            const menuList = document.getElementById('menu-list');
+            const menuElement = event.target.closest('.bg-gray-50');
+            
+            const originalHTML = menuElement.innerHTML;
+            
+            menuElement.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <p class="text-gray-900 font-medium">Yakin ingin menghapus menu ini?</p>
+                    <div class="flex space-x-2">
+                        <button class="btn-confirm-delete bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-medium transition-colors">
+                            Ya, Hapus
+                        </button>
+                        <button class="btn-cancel-delete bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded font-medium transition-colors">
+                            Batal
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            menuElement.querySelector('.btn-confirm-delete').addEventListener('click', () => {
+                const index = menuItems.findIndex(m => m.id === menuId);
+                if (index !== -1) {
+                    menuItems.splice(index, 1);
+                    saveMenusToStorage();
+                    renderMenuCards();
+                    renderMenuList();
+                    showToast('✅ Menu berhasil dihapus', 'success');
+                }
+            });
+
+            menuElement.querySelector('.btn-cancel-delete').addEventListener('click', () => {
+                menuElement.innerHTML = originalHTML;
+                renderMenuList();
+            });
+        }
+
+
+
+        let currentMenuId = null;
+
+        function showSubMenus(menuId) {
+            currentMenuId = menuId;
+            const menu = menuItems.find(m => m.id === menuId);
+            if (!menu) return;
+
+            // Hide menu section and show submenu section
+            document.getElementById('menu-section').classList.add('hidden');
+            const dataSection = document.getElementById('data-section');
+            if (dataSection) {
+                dataSection.classList.add('hidden');
+            }
+            document.getElementById('submenu-section').classList.remove('hidden');
+            
+            // Update submenu header
+            document.getElementById('submenu-title').textContent = menu.title;
+            document.getElementById('submenu-icon').textContent = menu.icon;
+            
+            // Show/hide manage button based on role
+            const manageSubMenuBtn = document.getElementById('btn-manage-submenu');
+            if (currentUser && currentUser.role === 'admin') {
+                manageSubMenuBtn.classList.remove('hidden');
+            } else {
+                manageSubMenuBtn.classList.add('hidden');
+            }
+            
+            // Render sub menu cards
+            const submenuGrid = document.getElementById('submenu-grid');
+            const subMenus = menu.subMenus || [];
+            
+            if (subMenus.length === 0) {
+                submenuGrid.className = 'grid gap-3 sm:gap-4';
+                submenuGrid.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">Belum ada sub menu tersedia</div>';
+                return;
+            }
+            
+            submenuGrid.innerHTML = subMenus.map(sub => `
+                <div class="submenu-card rounded-lg shadow-md p-5 cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 ${!sub.sheetUrl ? 'opacity-60' : ''}" data-sheet="${sub.sheet}" data-url="${sub.sheetUrl || ''}" style="background: linear-gradient(135deg, rgba(0, 140, 158, 0.1) 0%, rgba(0, 107, 125, 0.15) 100%); border: 2px solid #006b7d;">
+                    <div class="flex items-start justify-between mb-2">
+                        <h4 class="text-lg font-bold text-gray-900 flex-1">${sub.title}</h4>
+                        ${sub.sheetUrl ? '<span style="color: #006b7d;" class="text-xl">✓</span>' : '<span class="text-red-500 text-xl">⚠️</span>'}
+                    </div>
+                    <p class="text-xs text-gray-600 mb-2">📄 Sheet: <span class="font-mono bg-white px-2 py-1 rounded">${sub.sheet}</span></p>
+                    ${!sub.sheetUrl ? '<p class="text-xs text-red-600 font-medium mt-2">⚠️ URL belum dikonfigurasi</p>' : '<p class="text-xs font-medium mt-2" style="color: #006b7d;">✅ Klik untuk membuka sheet</p>'}
+                </div>
+            `).join('');
+            
+            // Apply grid columns after rendering
+            updateSubMenuGrid(subMenus.length);
+
+            // Add click handlers for sub menu cards
+            document.querySelectorAll('.submenu-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const url = card.dataset.url;
+                    
+                    if (url && url.trim() !== '') {
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                    } else {
+                        showToast('⚠️ URL Google Sheets belum dikonfigurasi untuk sub menu ini. Hubungi admin untuk mengatur URL.', 'error');
+                    }
+                });
+            });
+        }
+
+        function showMenuSection() {
+            document.getElementById('menu-section').classList.remove('hidden');
+            document.getElementById('submenu-section').classList.add('hidden');
+            currentMenuId = null;
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const colors = {
+                success: '#006b7d',
+                error: '#ef4444',
+                info: '#006b7d'
+            };
+            
+            toast.className = `fixed top-4 right-4 text-white px-6 py-3 rounded-lg shadow-lg z-50 max-w-md`;
+            if (type === 'error') {
+                toast.style.background = colors[type];
+            } else {
+                toast.style.background = `linear-gradient(135deg, #008c9e 0%, ${colors[type]} 100%)`;
+            }
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        init();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b5639577554fe87',t:'MTc2Njk3OTA4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
